@@ -5,6 +5,7 @@
 package org.mozilla.fenix.gecko
 
 import android.content.Context
+import android.os.Bundle
 import androidx.annotation.VisibleForTesting
 import mozilla.components.browser.engine.gecko.autofill.GeckoAutocompleteStorageDelegate
 import mozilla.components.browser.engine.gecko.ext.toContentBlockingSetting
@@ -27,6 +28,12 @@ import org.mozilla.geckoview.GeckoRuntimeSettings
 
 object GeckoProvider {
     private var runtime: GeckoRuntime? = null
+    var extras: Bundle? = null
+        set(value) {
+            if (runtime == null) {
+                field = value
+            }
+        }
     private const val CN_UPDATE_URL =
         "https://sb.firefox.com.cn/downloads?client=SAFEBROWSING_ID&appver=%MAJOR_VERSION%&pver=2.2"
     private const val CN_GET_HASH_URL =
@@ -106,7 +113,7 @@ object GeckoProvider {
         context: Context,
         policy: TrackingProtectionPolicy,
     ): GeckoRuntimeSettings {
-        return GeckoRuntimeSettings.Builder()
+        val builder = GeckoRuntimeSettings.Builder()
             .crashHandler(CrashHandlerService::class.java)
             .telemetryDelegate(GeckoAdapter())
             .experimentDelegate(NimbusExperimentDelegate())
@@ -136,6 +143,7 @@ object GeckoProvider {
             .aboutConfigEnabled(Config.channel.isBeta || Config.channel.isNightlyOrDebug)
             .extensionsProcessEnabled(FxNimbus.features.extensionsProcess.value().enabled)
             .extensionsWebAPIEnabled(true)
-            .build()
+        extras?.let { builder.extras(it) }
+        return builder.build()
     }
 }
