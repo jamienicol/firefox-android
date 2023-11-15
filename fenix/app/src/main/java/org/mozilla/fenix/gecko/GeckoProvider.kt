@@ -87,6 +87,18 @@ object GeckoProvider {
             )
         }
 
+        runtimeSettings.extras.putString("env0", "MOZ_USE_PERFORMANCE_MARKER_FILE=1")
+        runtimeSettings.extras.putString("env1", "MOZ_PERFORMANCE_MARKER_DIR=/storage/emulated/0/Android/data/org.mozilla.fenix/files")
+        runtimeSettings.extras.putString("env2", "PERF_SPEW_DIR=/storage/emulated/0/Android/data/org.mozilla.fenix/files")
+        runtimeSettings.extras.putString("env3", "IONPERF=func")
+        runtimeSettings.extras.putString("env4", "JIT_OPTION_enableICFramePointers=true")
+        runtimeSettings.extras.putString("env5", "JIT_OPTION_spectreIndexMasking=false")
+        runtimeSettings.extras.putString("env6", "JIT_OPTION_spectreObjectMitigations=false")
+        runtimeSettings.extras.putString("env7", "JIT_OPTION_spectreStringMitigations=false")
+        runtimeSettings.extras.putString("env8", "JIT_OPTION_spectreValueMasking=false")
+        runtimeSettings.extras.putString("env9", "JIT_OPTION_spectreJitToCxxCalls=false")
+        runtimeSettings.extras.putString("env10", "JIT_OPTION_onlyInlineSelfHosted=true")
+
         val geckoRuntime = GeckoRuntime.create(context, runtimeSettings)
 
         geckoRuntime.autocompleteStorageDelegate = GeckoAutocompleteStorageDelegate(
